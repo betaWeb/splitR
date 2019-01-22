@@ -2,9 +2,10 @@
   "name": "splitr",
   "version": "1.0.0",
   "description": "A NodeJS app to split video into parts",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "node server.js",
+    "watch": "webpack --watch",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,29 @@
   "bugs": {
     "url": "https://github.com/betaWeb/splitR/issues"
   },
-  "homepage": "https://github.com/betaWeb/splitR#readme"
+  "homepage": "https://github.com/betaWeb/splitR#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.5.2",
+    "bootstrap": "^4.0.0-beta.2",
+    "express": "~4.7.2",
+    "ffmpeg": "0.0.4",
+    "method-override": "~2.1.2",
+    "vue": "^2.5.11",
+    "vue-axios": "^2.0.2"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.2",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  }
 }
