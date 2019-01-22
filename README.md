@@ -1,2 +1,2 @@
 # splitR
-A NodeJS app to split video into parts
+A NodeJS app to split a video into parts.
