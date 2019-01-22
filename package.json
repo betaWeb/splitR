@@ -1,0 +1,27 @@
+{
+  "name": "splitr",
+  "version": "1.0.0",
+  "description": "A NodeJS app to split video into parts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betaWeb/splitR.git"
+  },
+  "keywords": [
+    "nodejs",
+    "node",
+    "node-module",
+    "ffmpeg",
+    "video",
+    "app"
+  ],
+  "author": "betaWeb <betaweb34@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/betaWeb/splitR/issues"
+  },
+  "homepage": "https://github.com/betaWeb/splitR#readme"
+}
