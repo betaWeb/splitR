@@ -3,14 +3,14 @@ const Router = express.Router()
 const Splitter = require('../src/Splitter')
 
 Router.route('/split').post(async (req, res, next) => {
-    let { input, output, start, duration } = req.body
+    let {input, output, start, duration} = req.body
 
     try {
         let splitter = new Splitter(input, output, start, duration)
-        let file = await splitter.process()
-        console.log(file)
+        const file = await splitter.process()
+        res.json({file})
     } catch (e) {
-        return next(new Error('Error on splitting video'))
+        next(`Error on splitting video - ${e.msg} (code ${e.code})`)
     }
 })
 

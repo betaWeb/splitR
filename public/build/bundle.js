@@ -1129,6 +1129,9 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1175,6 +1178,15 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1185,13 +1197,15 @@ module.exports = function normalizeComponent (
             input: null,
             output: null,
             start: null,
-            duration: null
+            duration: null,
+            loading: false
         };
     },
     methods: {
         async split(e) {
             if (e) e.preventDefault();
-            let url = 'http://localhost:4000/api/split';
+            this.loading = true;
+            let url = '/api/split';
             let param = {
                 input: this.input,
                 output: this.outputFileName || null,
@@ -1204,6 +1218,7 @@ module.exports = function normalizeComponent (
             } catch (err) {
                 console.error(err);
             }
+            this.loading = false;
         }
     },
     computed: {
@@ -1213,11 +1228,6 @@ module.exports = function normalizeComponent (
             const name = parts.pop();
             return `${parts.join('/')}/output_${name}`;
         }
-        /*inputExt() {
-            if (!this.input) return null
-            let parts = this.input.split('.')
-            return `.${parts[parts.length - 1]}`
-        }*/
     }
 });
 
@@ -13032,7 +13042,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity .5s\n}\n.fade-enter,\n.fade-leave-active {\n    opacity: 0\n}\n", ""]);
+exports.push([module.i, "\n.header {\n    margin: 2rem 0 2rem 1rem;\n}\n.title {\n    vertical-align: middle;\n}\n.logo {\n    margin-left: .334rem;\n    height: 80px;\n    vertical-align: middle;\n}\n.fade-enter-active,\n.fade-leave-active {\n    transition: opacity .5s\n}\n.fade-enter,\n.fade-leave-active {\n    opacity: 0\n}\n", ""]);
 
 // exports
 
@@ -13995,7 +14005,11 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Video input" },
+              attrs: {
+                type: "text",
+                placeholder: "Video input",
+                disabled: _vm.loading
+              },
               domProps: { value: _vm.input },
               on: {
                 input: function($event) {
@@ -14022,7 +14036,8 @@ var render = function() {
               attrs: {
                 type: "text",
                 placeholder: "Video output",
-                "aria-describedby": "video-output"
+                "aria-describedby": "video-output",
+                disabled: _vm.loading
               },
               domProps: { value: _vm.outputFileName },
               on: {
@@ -14036,70 +14051,79 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "input-group mb-3" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.start,
-                  expression: "start"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Split start time",
-                "aria-describedby": "input-start"
-              },
-              domProps: { value: _vm.start },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "input-group mb-3" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.start,
+                      expression: "start"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Start time",
+                    "aria-describedby": "input-start",
+                    disabled: _vm.loading
+                  },
+                  domProps: { value: _vm.start },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.start = $event.target.value
+                    }
                   }
-                  _vm.start = $event.target.value
-                }
-              }
-            }),
+                }),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
+            ]),
             _vm._v(" "),
-            _vm._m(0)
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input-group mb-3" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.duration,
-                  expression: "duration"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Split duration",
-                "aria-describedby": "input-duration"
-              },
-              domProps: { value: _vm.duration },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "input-group mb-3" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.duration,
+                      expression: "duration"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Duration",
+                    "aria-describedby": "input-duration",
+                    disabled: _vm.loading
+                  },
+                  domProps: { value: _vm.duration },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.duration = $event.target.value
+                    }
                   }
-                  _vm.duration = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(1)
+                }),
+                _vm._v(" "),
+                _vm._m(1)
+              ])
+            ])
           ]),
           _vm._v(" "),
           _c(
             "button",
             {
-              staticClass: "btn btn-primary",
+              staticClass: "btn btn-primary btn-block",
+              attrs: { disabled: _vm.loading },
               on: {
                 click: function($event) {
                   $event.preventDefault()
@@ -14107,7 +14131,11 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Process")]
+            [
+              _vm.loading
+                ? _c("span", [_vm._v("Processing...")])
+                : _c("span", [_vm._v("Process")])
+            ]
           )
         ])
       ]
@@ -14161,17 +14189,32 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "app" } }, [
     _c("div", { staticClass: "container" }, [
-      _c("h1", { staticClass: "text-center" }, [
-        _vm._v("SplitR - Video splitter")
-      ]),
+      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [_c("Form")], 1)
+        _c("div", { staticClass: "col-md-8 offset-md-2" }, [_c("Form")], 1)
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", { staticClass: "header text-center" }, [
+      _c("span", { staticClass: "title" }, [
+        _vm._v("Split"),
+        _c("strong", [_vm._v("R")])
+      ]),
+      _vm._v(" "),
+      _c("img", {
+        staticClass: "logo img-fluid",
+        attrs: { src: "img/film-editing.png", alt: "SplitR - Video splitter" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

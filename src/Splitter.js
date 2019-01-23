@@ -10,21 +10,23 @@ class Splitter {
         this.duration = duration
     }
 
-    async process() {
-        try {
-            const process = new ffmpeg(this.input)
-            const video = await process
-
-            video
-                .setVideoStartTime(this.start)
-                .setVideoDuration(this.duration)
-                .save(this.output, (error, file) => {
-                    if (error) throw error
-                    return file
-                })
-        } catch (e) {
-            throw e
-        }
+    process() {
+        return new Promise((resolve, reject) => {
+            try {
+                const process = new ffmpeg(this.input)
+                process.then(video => {
+                    video
+                        .setVideoStartTime(this.start)
+                        .setVideoDuration(this.duration)
+                        .save(this.output, (error, file) => {
+                            if (error) reject(error)
+                            else resolve(file)
+                        })
+                }, reject)
+            } catch (e) {
+                reject(e)
+            }
+        })
     }
 
 }

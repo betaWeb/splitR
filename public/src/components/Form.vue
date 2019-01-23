@@ -3,24 +3,33 @@
         <form @submit.prevent>
             <div class="form-group">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Video input" v-model="input">
+                    <input type="text" class="form-control" placeholder="Video input" v-model="input" :disabled="loading">
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Video output" v-model="outputFileName" aria-describedby="video-output">
+                    <input type="text" class="form-control" placeholder="Video output" v-model="outputFileName" aria-describedby="video-output" :disabled="loading">
                 </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Split start time" v-model="start" aria-describedby="input-start">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="input-start">sec.</span>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Start time" v-model="start" aria-describedby="input-start" :disabled="loading">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="input-start">sec.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Duration" v-model="duration" aria-describedby="input-duration" :disabled="loading">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="input-duration">sec.</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Split duration" v-model="duration" aria-describedby="input-duration">
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="input-duration">sec.</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary" @click.prevent="split($event)">Process</button>
+                <button class="btn btn-primary btn-block" @click.prevent="split($event)" :disabled="loading">
+                    <span v-if="loading">Processing...</span>
+                    <span v-else>Process</span>
+                </button>
             </div>
         </form>
     </div>
@@ -36,13 +45,15 @@
                 input: null,
                 output: null,
                 start: null,
-                duration: null
+                duration: null,
+                loading: false
             }
         },
         methods: {
             async split(e) {
-                if (e) e.preventDefault();
-                let url = 'http://localhost:4000/api/split';
+                if (e) e.preventDefault()
+                this.loading = true
+                let url = '/api/split'
                 let param = {
                     input: this.input,
                     output: this.outputFileName || null,
@@ -55,6 +66,7 @@
                 } catch (err) {
                     console.error(err)
                 }
+                this.loading = false
             }
         },
         computed: {
@@ -64,11 +76,6 @@
                 const name = parts.pop()
                 return `${parts.join('/')}/output_${name}`
             }
-            /*inputExt() {
-                if (!this.input) return null
-                let parts = this.input.split('.')
-                return `.${parts[parts.length - 1]}`
-            }*/
         }
     }
 </script>
